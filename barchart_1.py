@@ -19,7 +19,7 @@ f.scene.disable_render = True
 
 # Arquivos a serem lidos
 fread1 = open('world.dat','r')
-fread2 = open('new_table_10000.txt','r')
+fread2 = open('new_table.txt','r')
 
 
 # Define vetores com latitudes e longitudes
@@ -40,8 +40,8 @@ for i in x0:
 		yvet.append(i[1]);
 		zerovet.append(0)
 
-#mapa = mlab.points3d(xvet,yvet,zerovet, xvet, color = (0,1,0))
-mapa = mlab.barchart(xvet,yvet, zerovet, color = (0,1,0))
+mapa = mlab.points3d(xvet,yvet,zerovet, xvet, color = (1,1,1), mode = 'point')
+#mapa = mlab.barchart(xvet,yvet, zerovet, color = (0,1,0))
 
 # gira camera
 camera.yaw(220)
@@ -90,7 +90,7 @@ cont = 0;
 cont1 = 0;
 
 # le arquivo com coordenadas e manda os ip's com as coordenadas para o vetor coordenadas
-file_cordenadas = open('Ip_lat_lon_10000.txt','r')
+file_cordenadas = open('Ip_lat_lon.txt','r')
 coordenadas = [];
 lines = file_cordenadas.readlines();
 for i in lines:
@@ -98,13 +98,12 @@ for i in lines:
 for j in coordenadas:
 	j[2]=j[2][0:-1]
 
-
 for ind_ip in ip_src: 
 	
 	cont += 1;
 	x = coordenadas[cont-1][2];
 	y = coordenadas[cont-1][1];
-	fator_de_escala = 80
+	fator_de_escala = 200
 	zpad = ( (z[cont - 1])/fator_de_escala );
 	
 	# Se o ip estiver presente na lista de ips usados...
@@ -150,7 +149,7 @@ for cont1 in range(len(vetx)):
 		if cont1 < 1000:
 			limite = 10
 			if cont1%limite == 0:
-				camera.yaw(ang*2)
+				camera.yaw(ang)
 				mlab.barchart(vetx[(cont1-limite):cont1], vety[(cont1-limite):cont1], vetz[(cont1-limite):cont1], resolution = 20)
 				#print cont1
 				
@@ -164,7 +163,7 @@ for cont1 in range(len(vetx)):
 # Isso aqui ta removendo o terreno que foi criado anteriormente
 mlab.clf();
 
-mapa = mlab.barchart(xvet,yvet,zerovet, color = (0,1,0))
+mapa = mlab.barchart(xvet,yvet,zerovet, color = (1,1,1))
 s = mlab.barchart(vetx, vety, vetz, resolution = 20);
 
 # define outline e x1
@@ -206,7 +205,6 @@ picker = f.on_mouse_pick(imprime_clicou)
 picker.tolerance = 0.014
 
 # gui
-
 class ips_de_destino(HasTraits):
 	Numero_de_pacotes_enviados = Int
 	Mandou_pacotes_para = []
